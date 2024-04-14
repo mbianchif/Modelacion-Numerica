@@ -1,19 +1,9 @@
 from sys import maxsize
+from methods.fixed_point import fixed_point
 
 
 def newton_raphson_modified(f, df, d2f, pn, toll=0, max_iter=maxsize):
-    def g(x): return x - f(x) * df(x) / (df(x) ** 2 - f(x) * d2f(x))
-
-    ps = []
-    for n in range(0, max_iter):
-        fpn = f(pn)
-        ps.append((n, pn, fpn))
-        if abs(fpn) <= toll:
-            break
-
-        pn = g(pn)
-
-    return ps
+    return fixed_point(f, pn, toll, max_iter, lambda x: df(x) / (df(x) ** 2 - f(x) * d2f(x)))
 
 
 if __name__ == "__main__":
@@ -33,7 +23,7 @@ if __name__ == "__main__":
         print(x)
 
     print("\nNewton-Raphson")
-    from newton_raphson import newton_raphson
+    from methods.newton_raphson import newton_raphson
     table = newton_raphson(f, df, 1.5, 10e-4)
     for x in table:
         print(x)

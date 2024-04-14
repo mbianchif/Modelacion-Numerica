@@ -1,7 +1,7 @@
 from sys import maxsize
 
 
-def fixed_point(f, pn, toll=0, max_iter=maxsize, psy=lambda _: 1):
+def fixed_point(f, pn, toll=0.0, max_iter=maxsize, psy=lambda _: 1):
     def g(x): return x - psy(x) * f(x)
 
     ps = []

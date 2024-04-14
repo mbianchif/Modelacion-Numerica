@@ -1,5 +1,5 @@
 from sys import maxsize
-from fixed_point import fixed_point
+from methods.fixed_point import fixed_point
 
 
 def newton_raphson(f, df, pn, toll=0, max_iter=maxsize):
