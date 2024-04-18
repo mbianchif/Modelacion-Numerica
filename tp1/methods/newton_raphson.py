@@ -1,4 +1,4 @@
-from methods.fixed_point import fixed_point
+from fixed_point import fixed_point
 
 
 def newton_raphson(f, df, pn, toll=0, max_iter=1000):
@@ -18,11 +18,11 @@ if __name__ == "__main__":
     print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
 
     def f(x):
-        return 0
+        return 999 * x ** 2
 
-    def df(x):
-        return 0
+    def df(_):
+        return 1998
 
     print("[Failure]")
-    table = newton_raphson(f, df, 0, 1)
+    table = newton_raphson(f, df, 100, 0)
     print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
