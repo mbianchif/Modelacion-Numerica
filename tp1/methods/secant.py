@@ -1,20 +1,19 @@
-from sys import maxsize
-
-
-def secant(f, pn0, pn1, toll=0, max_iter=maxsize):
+def secant(f, pn0, pn1, toll=0, max_iter=1000):
     def g(pn0, pn1):
-        return pn1 - (f(pn1)) * (pn1 - pn0) / (f(pn1) - f(pn0))
+        return pn0 - f(pn0) * (pn0 - pn1) / (f(pn0) - f(pn1))
 
-    ps = [(0, pn0, f(pn0))]
-    for n in range(1, max_iter):
-        gpn = g(pn0, pn1)
-        fpn = f(gpn)
-        ps.append((n, pn1, gpn))
-        if abs(fpn) <= toll:
+    ps = []
+    for _ in range(max_iter):
+        if f(pn0) == f(pn1):
+            raise ValueError()
+
+        ps.append((pn1, f(pn1)))
+        if abs(pn1 - pn0) <= toll:
             break
 
-        pn0 = pn1
-        pn1 = gpn
+        gpn = g(pn0, pn1)
+        pn1 = pn0
+        pn0 = gpn
 
     return ps
 
@@ -34,5 +33,5 @@ if __name__ == "__main__":
         return 0
 
     print("[Failure]")
-    table = secant(f, 0, 1, 2)
+    table = secant(f, 0, 1, 10e-3)
     print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")

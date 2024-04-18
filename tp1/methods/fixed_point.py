@@ -1,17 +1,15 @@
-from sys import maxsize
-
-
-def fixed_point(f, pn, toll=0.0, max_iter=maxsize, psy=lambda _: 1):
+def fixed_point(f, pn, toll=0, max_iter=1000, psy=lambda _: 1):
     def g(x): return x - psy(x) * f(x)
 
     ps = []
-    for n in range(0, max_iter):
-        fpn = f(pn)
-        ps.append((n, pn, fpn))
-        if abs(fpn) <= toll:
+    pn1 = None
+    for _ in range(max_iter):
+        ps.append((pn, f(pn)))
+        if pn1 and abs(pn1 - pn) <= toll:
             break
 
         pn = g(pn)
+        pn1 = pn
 
     return ps
 
@@ -28,7 +26,7 @@ if __name__ == "__main__":
     print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
 
     def f(x):
-        return 0.99999999999999999 * x
+        return 0
 
     print("[Failure]")
     table = fixed_point(f, 20)
