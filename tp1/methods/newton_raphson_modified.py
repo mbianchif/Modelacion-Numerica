@@ -17,13 +17,19 @@ if __name__ == "__main__":
     def d2f(x):
         return 6 * x - 18
 
-    print("\nNewton-Raphson-Modified")
+    print("[Success]")
     table = newton_raphson_modified(f, df, d2f, 1.5, 10e-4)
-    for x in table:
-        print(x)
+    print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
 
-    print("\nNewton-Raphson")
-    from methods.newton_raphson import newton_raphson
-    table = newton_raphson(f, df, 1.5, 10e-4)
-    for x in table:
-        print(x)
+    def f(x):
+        return 0
+
+    def df(x):
+        return 0
+
+    def d2f(x):
+        return 0
+
+    print("[Failure]")
+    table = newton_raphson_modified(f, df, d2f, 0, 1)
+    print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")

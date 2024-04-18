@@ -27,6 +27,13 @@ if __name__ == "__main__":
     def f(x):
         return exp(x) * (sin(x) + cos(x) - 2 * x - 2)
 
+    print("[Success]")
     table = bisection(f, -2.5, -0.5, 10e-5)
-    for x in table:
-        print(x)
+    print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
+
+    def f(x):
+        return 0
+
+    print("[Failure]")
+    table = bisection(f, -1, 4, max_iter=100)
+    print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")

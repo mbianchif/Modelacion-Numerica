@@ -20,6 +20,17 @@ if __name__ == "__main__":
     from math import sin
 
     # sacado del ej. 4 de la guia 2.
-    table = fixed_point(lambda x: (x ** 2) / 4 - sin(x), 1.75, 10e-6)
-    for x in table:
-        print(x)
+    def f(x):
+        return (x ** 2) / 4 - sin(x)
+
+    print("[Success]")
+    table = fixed_point(f, 1.75, 10e-6)
+    print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
+
+    def f(x):
+        return 0.99999999999999999 * x
+
+    print("[Failure]")
+    table = fixed_point(f, 20)
+    print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
+    print(table)
