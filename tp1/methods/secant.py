@@ -5,13 +5,13 @@ def secant(f, pn0, pn1, toll=0, max_iter=1000):
     ps = []
     for _ in range(max_iter):
         if f(pn0) == f(pn1):
-            raise ValueError()
-
-        ps.append((pn1, f(pn1)))
-        if abs(pn1 - pn0) <= toll:
             break
 
+        ps.append((pn1, f(pn1)))
         gpn = g(pn0, pn1)
+        if abs(gpn - pn1) <= toll:
+            break
+
         pn1 = pn0
         pn0 = gpn
 
@@ -19,7 +19,7 @@ def secant(f, pn0, pn1, toll=0, max_iter=1000):
 
 
 if __name__ == "__main__":
-    from math import sin
+    from math import sin, cos
 
     # sacado del ej. 16 de la guia 2.
     def f(x):
@@ -30,8 +30,8 @@ if __name__ == "__main__":
     print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
 
     def f(x):
-        return 0
+        return x * cos(10 * x) / 20 + 1
 
     print("[Failure]")
-    table = secant(f, 0, 1, 10e-3)
+    table = secant(f, -1, 2, 0)
     print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")

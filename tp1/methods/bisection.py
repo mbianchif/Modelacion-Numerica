@@ -38,5 +38,4 @@ if __name__ == "__main__":
         return pi * (x ** 2) * (3 - x) / 3
 
     print("[Failure]")
-    table = bisection(f, -4, 4)
-    print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
+    bisection(f, -4, 4)
