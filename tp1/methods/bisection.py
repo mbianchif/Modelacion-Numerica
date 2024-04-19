@@ -1,3 +1,6 @@
+from methods.utils import log_root
+
+
 def bisection(f, a, b, toll=0, max_iter=1000):
     ps = []
     pn1 = None
@@ -15,14 +18,14 @@ def bisection(f, a, b, toll=0, max_iter=1000):
         elif fa * fpn < 0:
             b = pn
         else:
-            raise ValueError()
+            raise ValueError("found 0")
 
         pn1 = pn
 
     return ps
 
 
-if __name__ == "__main__":
+def bisection_test():
     from math import sin, cos, exp, pi
 
     # sacado del ej. 1 de la guia 2.
@@ -31,12 +34,14 @@ if __name__ == "__main__":
 
     print("[Success]")
     table = bisection(f, -2.5, -0.5, 10e-5)
-    print(f"found x = {table[-1][0]} with f(x) = {f(table[-1][1])}")
+    log_root(table)
 
     def f(x):
         # R = 1
         return pi * (x ** 2) * (3 - x) / 3
 
     print("[Failure]")
-    table = bisection(f, -4, 4)
-    print(table)
+    try:
+        table = bisection(f, -4, 4)
+    except ValueError as v:
+        print(v)
