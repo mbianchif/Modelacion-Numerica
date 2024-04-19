@@ -7,9 +7,9 @@ def secant(f, pn0, pn1, toll=0, max_iter=1000):
         if f(pn0) == f(pn1):
             break
 
-        ps.append((pn1, f(pn1)))
         gpn = g(pn0, pn1)
-        if abs(gpn - pn1) <= toll:
+        ps.append((gpn, f(gpn)))
+        if abs(gpn - pn0) <= toll:
             break
 
         pn1 = pn0
@@ -27,11 +27,11 @@ if __name__ == "__main__":
 
     print("[Success]")
     table = secant(f, 1.5, 2, 10e-6)
-    print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
+    print(f"found x = {table[-1][0]} with f(x) = {f(table[-1][1])}")
 
     def f(x):
         return x * cos(10 * x) / 20 + 1
 
     print("[Failure]")
-    table = secant(f, -1, 2, 0)
-    print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
+    table = secant(f, -1, 2)
+    print(f"found x = {table[-1][0]} with f(x) = {f(table[-1][1])}")

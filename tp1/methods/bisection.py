@@ -3,8 +3,8 @@ def bisection(f, a, b, toll=0, max_iter=1000):
     pn1 = None
     for _ in range(max_iter):
         pn = (a + b) / 2
-        fpn = f(pn)
 
+        fpn = f(pn)
         ps.append((pn, fpn))
         if pn1 and abs(pn1 - pn) <= toll:
             break
@@ -31,11 +31,12 @@ if __name__ == "__main__":
 
     print("[Success]")
     table = bisection(f, -2.5, -0.5, 10e-5)
-    print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
+    print(f"found x = {table[-1][0]} with f(x) = {f(table[-1][1])}")
 
     def f(x):
         # R = 1
         return pi * (x ** 2) * (3 - x) / 3
 
     print("[Failure]")
-    bisection(f, -4, 4)
+    table = bisection(f, -4, 4)
+    print(table)

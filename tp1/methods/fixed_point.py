@@ -23,12 +23,11 @@ if __name__ == "__main__":
 
     print("[Success]")
     table = fixed_point(f, 1.75, 10e-6)
-    print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
+    print(f"found x = {table[-1][0]} with f(x) = {f(table[-1][1])}")
 
     def f(x):
         return 0
 
     print("[Failure]")
     table = fixed_point(f, 20)
-    print(f"found x = {table[-1][1]} with f(x) = {f(table[-1][1])}")
-    print(table)
+    print(f"found x = {table[-1][0]} with f(x) = {f(table[-1][1])}")
