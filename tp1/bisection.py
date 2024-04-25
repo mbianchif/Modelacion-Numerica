@@ -10,7 +10,7 @@ def bisection(f, a, b, toll=0, max_iter=1000):
         if pn_1 and abs(pn_1 - pn) <= toll:
             break
 
-        fa_fx = fx * f(a)
+        fa_fx = f(a) * fx
         if fa_fx > 0:
             a = pn
         elif fa_fx < 0:
