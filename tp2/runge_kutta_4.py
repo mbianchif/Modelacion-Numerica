@@ -19,7 +19,7 @@ def next_iter_rk4(f, g, tn, xn, yn, h):
 
 
 def runge_kutta_4(f, g, x, y, h, a, b):
-    table = [[a, x, y]]
+    table = [(a, x, y)]
 
     tn = a + h
     while tn <= b:
