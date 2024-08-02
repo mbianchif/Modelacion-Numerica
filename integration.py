@@ -59,8 +59,7 @@ def romberg(f, a, b, extrapolations=5):
             return val
 
         else:
-            val = (4 ** (j - 1) * R(i, j - 1) -
-                   R(i - 1, j - 1)) / (4 ** (j - 1) - 1)
+            val = (4 ** (j - 1) * R(i, j - 1) - R(i - 1, j - 1)) / (4 ** (j - 1) - 1)
             partials[(i, j)] = val
             return val
 
