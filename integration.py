@@ -35,7 +35,7 @@ def simpson38(f, a, b, n):
     return (3 * h / 8) * (f(a) + 3 * (ones + twos) + 2 * threes + f(b))
 
 
-def romberg_tab(f, a, b, n=5):
+def romberg(f, a, b, n=5):
     dp = [[0] * n for _ in range(n)]
     dp[0][0] = 0.5 * (b - a) * (f(a) + f(b))
 
