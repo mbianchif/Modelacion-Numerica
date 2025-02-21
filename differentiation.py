@@ -1,4 +1,3 @@
-
 def back_diff(f, x, h):
     return (f(x) - f(x - h)) / h
 
@@ -11,21 +10,11 @@ def centered_diff(f, x, h):
     return (f(x + h) - f(x - h)) / (2 * h)
 
 
-def richardson(f, x, n=5):
-    partials = {}
+def richardson(f, x, n, h=0.001):
+    dp = [centered_diff(f, x, 0.5**i * h) for i in range(n)]
 
-    def R(k, h):
-        if prev := partials.get((k, h)):
-            return prev
+    for k in range(1, n):
+        for i in range(n - 1, k - 1, -1):
+            dp[i] = (4**k * dp[i - 1] - dp[i]) / (4**k - 1)
 
-        elif k == 1:
-            val = centered_diff(f, x, h)
-            partials[(k, h)] = val
-            return val
-
-        else:
-            val = (4 ** k * R(k - 1, h / 2) - R(k - 1, h)) / (4 ** k - 1)
-            partials[(k, h)] = val
-            return val
-
-    return R(n, 0.01)
+    return dp[-1]
