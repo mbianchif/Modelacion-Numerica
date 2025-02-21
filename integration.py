@@ -1,9 +1,12 @@
 
+from functools import lru_cache
+
+
 def trap(f, a, b, n):
     h = (b - a) / n
 
-    mid = sum(map(lambda k: f(a + k * h), range(1, n)))
-    return 0.5 * h * (f(a) + mid + f(b))
+    partial_sum = sum(map(lambda k: f(a + k * h), range(1, n)))
+    return 0.5 * h * (f(a) + partial_sum + f(b))
 
 
 def simpson13(f, a, b, n):
@@ -32,35 +35,18 @@ def simpson38(f, a, b, n):
     return (3 * h / 8) * (f(a) + 3 * (ones + twos) + 2 * threes + f(b))
 
 
-def romberg(f, a, b, extrapolations=5):
-    partials = {}
+def romberg_tab(f, a, b, n=5):
+    dp = [[0] * n for _ in range(n)]
+    dp[0][0] = 0.5 * (b - a) * (f(a) + f(b))
 
-    def h(i):
-        return (b - a) * 0.5 ** (i - 1)
+    for j in range(1, n):
+        h_j = (b - a) * 0.5 ** (j - 1)
+        partial_sum = sum(f(a + 0.5 * (2 * k - 1) * h_j) for k in range(1, 2 ** (j - 1) + 1))
+        dp[0][j] = 0.5 * (dp[0][j - 1] + h_j * partial_sum)
 
-    def R(i, j):
-        if prev := partials.get((i, j)):
-            return prev
+    for i in range(1, n):
+        for j in range(i, n):
+            dp[i][j] = (4 ** i * dp[i - 1][j] - dp[i - 1][j - 1]) / (4 ** i - 1)
 
-        elif i == 1 and j == 1:
-            val = 0.5 * (b - a) * (f(a) + f(b))
-            partials[(i, j)] = val
-            return val
+    return dp[-1][-1]
 
-        elif j == 1:
-            h_1 = h(i - 1)
-
-            alpha = 0
-            for k in range(1, 2 ** (i - 2) + 1):
-                alpha += f(a + 0.5 * (2 * k - 1) * h_1)
-
-            val = 0.5 * (R(i - 1, 1) + h_1 * alpha)
-            partials[(i, j)] = val
-            return val
-
-        else:
-            val = (4 ** (j - 1) * R(i, j - 1) - R(i - 1, j - 1)) / (4 ** (j - 1) - 1)
-            partials[(i, j)] = val
-            return val
-
-    return R(extrapolations, extrapolations)
