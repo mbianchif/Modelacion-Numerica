@@ -1,7 +1,3 @@
-
-from functools import lru_cache
-
-
 def trap(f, a, b, n):
     h = (b - a) / n
 
@@ -35,18 +31,17 @@ def simpson38(f, a, b, n):
     return (3 * h / 8) * (f(a) + 3 * (ones + twos) + 2 * threes + f(b))
 
 
-def romberg(f, a, b, n=5):
-    dp = [[0] * n for _ in range(n)]
-    dp[0][0] = 0.5 * (b - a) * (f(a) + f(b))
-
-    for j in range(1, n):
-        h_j = (b - a) * 0.5 ** (j - 1)
-        partial_sum = sum(f(a + 0.5 * (2 * k - 1) * h_j) for k in range(1, 2 ** (j - 1) + 1))
-        dp[0][j] = 0.5 * (dp[0][j - 1] + h_j * partial_sum)
+def romberg(f, a, b, n):
+    dp = [0.] * n
+    dp[0] = 0.5 * (b - a) * (f(a) + f(b))
 
     for i in range(1, n):
-        for j in range(i, n):
-            dp[i][j] = (4 ** i * dp[i - 1][j] - dp[i - 1][j - 1]) / (4 ** i - 1)
+        h_i = (b - a) * 0.5 ** (i - 1)
+        partial_sum = sum(f(a + 0.5 * (2 * k - 1) * h_i) for k in range(1, 2 ** (i - 1) + 1))
+        dp[i] = 0.5 * (dp[i - 1] + h_i * partial_sum)
 
-    return dp[-1][-1]
+    for j in range(1, n):
+        for i in range(i, n):
+            dp[i] = (4 ** j * dp[i] - dp[i - 1]) / (4 ** j - 1)
 
+    return dp[-1]
