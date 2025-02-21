@@ -32,16 +32,17 @@ def simpson38(f, a, b, n):
 
 
 def romberg(f, a, b, n):
-    dp = [0.] * n
-    dp[0] = 0.5 * (b - a) * (f(a) + f(b))
+    dp = [0.5 * (b - a) * (f(a) + f(b))] + [0.0] * (n - 1)
 
     for i in range(1, n):
         h_i = (b - a) * 0.5 ** (i - 1)
-        partial_sum = sum(f(a + 0.5 * (2 * k - 1) * h_i) for k in range(1, 2 ** (i - 1) + 1))
+        partial_sum = sum(
+            f(a + 0.5 * (2 * k - 1) * h_i) for k in range(1, 2 ** (i - 1) + 1)
+        )
         dp[i] = 0.5 * (dp[i - 1] + h_i * partial_sum)
 
     for j in range(1, n):
-        for i in range(i, n):
+        for i in range(n - 1, j - 1, -1):
             dp[i] = (4 ** j * dp[i] - dp[i - 1]) / (4 ** j - 1)
 
     return dp[-1]
