@@ -19,13 +19,13 @@ def runge_kutta_4(fs, x0s, a, b, n):
         tn1, xns = dp[i - 1]
         m1s = (f(tn1, *xns) for f in fs)
 
-        x2s = (xn + 0.5 * h * m1 for xn, m1 in zip(xns, m1s))
+        x2s = [xn + 0.5 * h * m1 for xn, m1 in zip(xns, m1s)]
         m2s = (f(tn1 + 0.5 * h, *x2s) for f in fs)
 
-        x3s = (xn + 0.5 * h * m2 for xn, m2 in zip(xns, m2s))
+        x3s = [xn + 0.5 * h * m2 for xn, m2 in zip(xns, m2s)]
         m3s = (f(tn1 + 0.5 * h, *x3s) for f in fs)
 
-        x4s = (xn + h * m3 for xn, m3 in zip(xns, m3s))
+        x4s = [xn + h * m3 for xn, m3 in zip(xns, m3s)]
         m4s = (f(tn1 + h, *x4s) for f in fs)
 
         xn1s = [
